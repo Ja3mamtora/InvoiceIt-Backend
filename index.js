@@ -150,7 +150,7 @@ app.post('/login', async (req, res, next) => {
         }
 
         const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET);
-        res.cookie('token', token, { sameSite: 'none', secure: true, partitioned: true });
+        res.cookie('token', token, { sameSite: 'none', secure: true });
         res.json({ message: 'Login successful', user });
     } catch (error) {
         console.log(error);
