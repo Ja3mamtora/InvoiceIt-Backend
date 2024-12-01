@@ -13,8 +13,11 @@ const cors = require('cors');
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
+
 app.use(cors({
-    credentials: true,
+  origin: 'https://invoice-it-frontend.vercel.app', // Allow only your frontend domain
+  methods: ['GET', 'POST', 'OPTIONS'], // Allow specific HTTP methods
+  credentials: true, // Allow cookies and authentication headers
 }));
 
 const prisma = new PrismaClient({
