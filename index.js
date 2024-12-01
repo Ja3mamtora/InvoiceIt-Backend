@@ -114,7 +114,7 @@ app.use(
 );
 
 const authenticateJWT = async (req, res, next) => {
-    const token = req.cookies.token;
+    const token = req.cookies.vercel-feature-flags;
     if (!token) return res.status(401).json({ message: 'Authentication required' });
 
     try {
@@ -535,7 +535,7 @@ app.post('/sendInvoice/:quotationId', authenticateJWT, async (req, res) => {
   });
   
   app.get('/validate-token', (req, res) => {
-    const token = req.cookies.token;
+    const token = req.cookies.vercel-feature-flags;
     if (!token) return res.status(401).json({ message: 'Authentication required' });
 
     try {
