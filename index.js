@@ -114,7 +114,7 @@ app.use(
 );
 
 const authenticateJWT = async (req, res, next) => {
-    const token = req.cookies.vercel-feature-flags;
+    const token = req.cookies.token;
     if (!token) return res.status(401).json({ message: 'Authentication required' });
 
     try {
@@ -150,7 +150,7 @@ app.post('/login', async (req, res, next) => {
         }
 
         const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET);
-        res.cookie('token', token, { httpOnly: true, sameSite: 'none', secure: true, partitioned: true });
+        res.cookie('token', token, { sameSite: 'none', secure: true, partitioned: true });
         res.json({ message: 'Login successful', user });
     } catch (error) {
         console.log(error);
@@ -535,7 +535,7 @@ app.post('/sendInvoice/:quotationId', authenticateJWT, async (req, res) => {
   });
   
   app.get('/validate-token', (req, res) => {
-    const token = req.cookies.vercel-feature-flags;
+    const token = req.cookies.token;
     if (!token) return res.status(401).json({ message: 'Authentication required' });
 
     try {
