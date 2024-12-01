@@ -1,0 +1,72 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "./node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = "postgresql://mypostgres_u63o_user:CE8bxKsg92gZqW1FoIjW1VJQcNW06nYQ@dpg-ct496flumphs73e4hkg0-a.singapore-postgres.render.com/mypostgres_u63o"
+}
+
+model User {
+    id            Int           @default(autoincrement()) @id
+    email         String        @unique
+    password      String
+    phone         String
+    businessName String
+    address       String
+    name          String
+    GSTIN         String
+    products      Product[]
+    customers     Customer[]
+    quotations    Quotation[]
+}
+
+model Customer {
+    id       Int    @default(autoincrement()) @id
+    email    String
+    name     String
+    address  String
+    phone    String
+    clientOf User   @relation(fields: [userId], references: [id])
+    userId   Int
+    quotations Quotation[]
+
+    @@unique([userId, email])
+}
+
+model Product {
+    id          Int    @default(autoincrement()) @id
+    title       String
+    price       Int
+    description String?
+    productOf   User   @relation(fields: [userId], references: [id])
+    userId      Int
+
+    quotations  QuotationItem[] 
+
+    @@unique([userId, title]) 
+}
+
+model Quotation {
+    id            Int           @default(autoincrement()) @id
+    createdAt     DateTime      @default(now())
+    quotationOf   Customer      @relation(fields: [customerId], references: [id])
+    customerId    Int
+    quotationBy   User          @relation(fields: [userId], references: [id])
+    userId        Int
+    quotationItems QuotationItem[]
+    grandTotal    Int
+}
+
+model QuotationItem {
+    id           Int        @default(autoincrement()) @id
+    quotationId  Int
+    inQuotation  Quotation  @relation(fields: [quotationId], references: [id])
+    quantity     Int
+    productName  String
+    price        Int
+    amount       Int
+    productId    Int        
+    product      Product    @relation(fields: [productId], references: [id]) 
+}
