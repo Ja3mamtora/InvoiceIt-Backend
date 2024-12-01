@@ -150,7 +150,12 @@ app.post('/login', async (req, res, next) => {
         }
 
         const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET);
-        res.cookie('token', token, { sameSite: 'none', secure: true });
+        res.cookie('token', token, {
+            httpOnly: true,       // Prevents access via JavaScript (for security)
+            secure: true,         // Ensures the cookie is sent only over HTTPS
+            sameSite: 'None',     // Allows cross-origin cookies
+            domain: 'invoice-it-frontend.vercel.app', // Target domain for the cookie
+        });
         res.json({ message: 'Login successful', user });
     } catch (error) {
         console.log(error);
