@@ -15,7 +15,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use(cors({
-  origin: 'https://invoice-it-frontend.vercel.app', // Allow only your frontend domain
+  origin: 'https://invoice-it-frontend-cwguwcp3v-ja3mamtoras-projects.vercel.app', // Allow only your frontend domain
   methods: ['GET', 'POST', 'OPTIONS'], // Allow specific HTTP methods
   credentials: true, // Allow cookies and authentication headers
 }));
