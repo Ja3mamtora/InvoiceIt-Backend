@@ -13,7 +13,7 @@ const cors = require('cors');
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
-
+app.set("trust proxy", 1);
 app.use(cors({
   origin: 'https://invoice-it-frontend.vercel.app', 
   methods: ['GET', 'POST', 'OPTIONS'], // Allow specific HTTP methods
@@ -153,7 +153,7 @@ app.post('/login', async (req, res, next) => {
         res.cookie('token', token, {
             httpOnly: true,       // Prevents access via JavaScript (for security)
             secure: true,         // Ensures the cookie is sent only over HTTPS
-            sameSite: 'None',     // Allows cross-origin cookies
+            same_site: 'None',     // Allows cross-origin cookies
             domain: 'invoice-it-frontend.vercel.app', // Target domain for the cookie
         });
         res.json({ message: 'Login successful', user });
